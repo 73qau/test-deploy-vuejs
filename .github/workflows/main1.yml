@@ -7,5 +7,6 @@ jobs: #Definición de los jobs
           - name: Public IP
           - id : ip
             uses: haythem/public-ip@v1.3
+            run: echo ¡Hola Mundo desde algo
           - name: HolaMundo
             run: echo ¡Hola Mundo desde ${{ steps.ip.outputs.ipv4 }}!
