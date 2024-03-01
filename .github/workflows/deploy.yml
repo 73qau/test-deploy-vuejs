@@ -1,24 +1,21 @@
 name: Deploy to DigitalOcean Droplet
-
-on:
+'on':
   push:
     branches:
-      - main  # Set this to your default branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 18
-    - name: Install SSH key
-      uses: webfactory/ssh-agent@v0.9.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    - name: Deploy to DigitalOcean
-      run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} root@159.65.190.174 'cd /var/www/test-deploy-vuejs && git pull origin main'
+      - name: Deploy to DigitalOcean Droplet
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
+          key: ${{secrets.KEY}}
+          script: |
+            rm -rf test
+            mkdir test
+            cd test
+            echo 'Deployment to digital ocean finished'
