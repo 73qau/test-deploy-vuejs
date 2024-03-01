@@ -1,18 +1,29 @@
-name: DEPLOY TO STAGING
+name: Deploy to DigitalOcean Droplet
 
-on: [push]
+on:
+  push:
+    branches:
+      - main  # Set this to your default branch
 
 jobs:
-  firebase-deploy:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
-      - name: Installing project dependencies
-      - run: npm install
-      - name: Building the project
-      - run: npm run build
-      - name: Digital Ocean Deploy App
-      - uses: jjst/action-digitalocean-deploy-app@v2
-        with:
-        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install SSH key
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_KEY }}
+
+    - name: Deploy to Droplet
+      run: |
+        rsync -avz --delete ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/test-deploy-vuejs
+        ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << EOF
+          cd /var/www/test-deploy-vuejs
+          # Add any deployment scripts you need, such as:
+          npm install
+          npm run build
+        EOF
