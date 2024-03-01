@@ -14,8 +14,9 @@ jobs:
           host: ${{secrets.HOST}}
           username: ${{secrets.USERNAME}}
           key: ${{secrets.KEY}}
-          script: |
-            rm -rf test
-            mkdir test
-            cd test
-            echo 'Deployment to digital ocean finished'
+          # script: |
+          #   rm -rf test
+          #   mkdir test
+          #   cd test
+          #   echo 'Deployment to digital ocean finished'
+          script: whoami
