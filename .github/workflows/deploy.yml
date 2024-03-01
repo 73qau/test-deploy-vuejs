@@ -57,22 +57,22 @@ jobs:
           key: ${{ secrets.KEY }}
           script: |
             # Use environment variables REPOSITORY and TARGET_FOLDER
-            echo "Deploying to $TARGET_FOLDER from $REPOSITORY"
+            echo "Deploying to ${{ env.TARGET_FOLDER }} from ${{ env.REPOSITORY }}"
 
             # Check if the project directory exists
-            if [ ! -d "$TARGET_FOLDER" ]; then
+            if [ ! -d "${{ env.TARGET_FOLDER }}" ]; then
               # Directory does not exist, clone the project
               echo "Directory not found. Cloning repository."
-              git clone $REPOSITORY $TARGET_FOLDER
+              git clone $REPOSITORY ${{ env.TARGET_FOLDER }}
             else
               # Directory exists, pull the latest changes
               echo "Directory found. Pulling latest changes."
-              cd $TARGET_FOLDER
+              cd ${{ env.TARGET_FOLDER }}
               git pull
             fi
 
             # Navigate to the project directory
-            cd $TARGET_FOLDER
+            cd ${{ env.TARGET_FOLDER }}
 
             # Install dependencies and build
             npm install && npm run build
