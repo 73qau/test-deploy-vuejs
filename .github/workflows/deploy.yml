@@ -1,4 +1,4 @@
-name: Deploy to DigitalOcean Droplet1
+name: Deploy to DigitalOcean Droplet
 'on':
   push:
     branches:
@@ -7,12 +7,16 @@ name: Deploy to DigitalOcean Droplet1
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: DIGITALOCEAN_ACCESS_TOKEN
+    env:
+      Greeting: DIGITALOCEAN_ACCESS_TOKEN
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Deploy to DigitalOcean Droplet
+        run: echo "${{ env.Greeting }} ${{ env.First_Name }}. Today is ${{ env.DAY_OF_WEEK }}!"
         uses: appleboy/ssh-action@master
         with:
           host: ${{secrets.HOST}}
