@@ -1,5 +1,37 @@
+# name: Deploy to DigitalOcean Droplet1
+# 'on':
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     environment: DIGITALOCEAN_ACCESS_TOKEN
+#     env:
+#       Greeting: algo
+#       prueba: ${{ vars.DAY_OF_WEEK }}
+#       VITE_TEST_VAR: ${{ vars.VITE_TEST_VAR }}
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/setup-node@v4
+#         with:
+#           node-version: 18
+#       - name: Imprimir cosas
+#         run: echo "${{ env.Greeting }} ${{ env.prueba }}. Today is ${{ vars.DAY_OF_WEEK }}!"
+#       - name: Deploy to DigitalOcean Droplet
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: ${{secrets.HOST}}
+#           username: ${{secrets.USERNAME}}
+#           key: ${{secrets.KEY}}
+#           script: |
+#             cd /var/www/test-deploy-vuejs/
+#             npm install && npm run build
+#             echo 'Deployment to digital ocean finished'
+
 name: Deploy to DigitalOcean Droplet1
-'on':
+"on":
   push:
     branches:
       - main
@@ -7,25 +39,41 @@ name: Deploy to DigitalOcean Droplet1
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: DIGITALOCEAN_ACCESS_TOKEN
-    env:
-      Greeting: algo
-      prueba: ${{ vars.DAY_OF_WEEK }}
-      VITE_TEST_VAR: ${{ vars.VITE_TEST_VAR }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Imprimir cosas
-        run: echo "${{ env.Greeting }} ${{ env.prueba }}. Today is ${{ vars.DAY_OF_WEEK }}!"
+        run: echo "Deployment started!"
       - name: Deploy to DigitalOcean Droplet
         uses: appleboy/ssh-action@master
+        env:
+          REPOSITORY: git@github.com:73qau/test-deploy-vuejs.git
+          TARGET_FOLDER: /var/www/test-deploy-vuejs/
         with:
-          host: ${{secrets.HOST}}
-          username: ${{secrets.USERNAME}}
-          key: ${{secrets.KEY}}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
           script: |
-            cd /var/www/test-deploy-vuejs/
+            # Use environment variables REPOSITORY and TARGET_FOLDER
+            echo "Deploying to $TARGET_FOLDER from $REPOSITORY"
+
+            # Check if the project directory exists
+            if [ ! -d "$TARGET_FOLDER" ]; then
+              # Directory does not exist, clone the project
+              echo "Directory not found. Cloning repository."
+              git clone $REPOSITORY $TARGET_FOLDER
+            else
+              # Directory exists, pull the latest changes
+              echo "Directory found. Pulling latest changes."
+              cd $TARGET_FOLDER
+              git pull
+            fi
+
+            # Navigate to the project directory
+            cd $TARGET_FOLDER
+
+            # Install dependencies and build
             npm install && npm run build
-            echo 'Deployment to digital ocean finished'
+            echo 'Deployment to Digital Ocean finished'
