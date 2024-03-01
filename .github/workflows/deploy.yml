@@ -9,14 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: DIGITALOCEAN_ACCESS_TOKEN
     env:
-      DAY_OF_WEEK: ${{ env.DAY_OF_WEEK }}
+      Greeting: DIGITALOCEAN_ACCESS_TOKEN
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Imprimir cosas
-        run: echo "${{ env.Greeting }} ${{ env.First_Name }}. Today is ${{ env.DAY_OF_WEEK }}!"
+        run: echo "${{ env.Greeting }} ${{ env.First_Name }}. Today is ${{ vars.DAY_OF_WEEK }}!"
       - name: Deploy to DigitalOcean Droplet
         uses: appleboy/ssh-action@master
         with:
