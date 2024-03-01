@@ -20,7 +20,8 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_KEY }}
     - name: Print secrets
-      run : echo ${{ secrets }}
+      run : echo HOST -> ${{ secrets.HOST }}
+      run : echo USERNAME -> ${{ secrets.USERNAME }}
     - name: Deploy to Droplet
       run: |
         rsync -avz --delete ./ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/test-deploy-vuejs
