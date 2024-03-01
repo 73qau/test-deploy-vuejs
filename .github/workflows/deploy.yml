@@ -11,6 +11,7 @@ jobs:
     env:
       Greeting: algo
       prueba: ${{ vars.DAY_OF_WEEK }}
+      VITE_TEST_VAR: ${{ vars.VITE_TEST_VAR }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

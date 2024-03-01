@@ -14,6 +14,9 @@ import HelloWorld from './components/HelloWorld.vue'
   </div>
   <HelloWorld msg="Vite + Vue" />
 </template>
+<script>
+console.log(import.meta.env.VITE_TEST_VAR);
+</script>
 
 <style scoped>
 .logo {
