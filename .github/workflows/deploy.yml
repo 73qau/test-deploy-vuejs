@@ -15,8 +15,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-      - name: Deploy to DigitalOcean Droplet
+      - name: Imprimir cosas
         run: echo "${{ env.Greeting }} ${{ env.First_Name }}. Today is ${{ env.DAY_OF_WEEK }}!"
+      - name: Deploy to DigitalOcean Droplet
         uses: appleboy/ssh-action@master
         with:
           host: ${{secrets.HOST}}
