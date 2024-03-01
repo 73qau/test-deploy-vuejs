@@ -14,9 +14,8 @@ jobs:
           host: ${{secrets.HOST}}
           username: ${{secrets.USERNAME}}
           key: ${{secrets.KEY}}
-          # script: |
-          #   rm -rf test
-          #   mkdir test
-          #   cd test
-          #   echo 'Deployment to digital ocean finished'
-          script: whoami
+          script: |
+            cd /var/www/test-deploy-vuejs/
+            git clone git@github.com:73qau/test-deploy-vuejs.git --depth=1 .
+            npm install
+            echo 'Deployment to digital ocean finished'
