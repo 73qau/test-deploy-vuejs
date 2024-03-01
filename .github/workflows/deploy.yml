@@ -21,4 +21,4 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_KEY }}
     - name: Deploy to DigitalOcean
       run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.USERNAME }}@159.65.190.174 'cd /var/www/test-deploy-vuejs && git pull origin main'
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} root@159.65.190.174 'cd /var/www/test-deploy-vuejs && git pull origin main'
