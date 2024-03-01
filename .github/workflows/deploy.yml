@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: DIGITALOCEAN_ACCESS_TOKEN
     env:
-      Greeting: DIGITALOCEAN_ACCESS_TOKEN
       DAY_OF_WEEK: ${{ env.DAY_OF_WEEK }}
     steps:
       - uses: actions/checkout@v4
