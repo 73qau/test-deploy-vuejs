@@ -77,6 +77,8 @@ jobs:
             # Navigate to the project directory
             cd ${{ env.TARGET_FOLDER }}
 
-            # Install dependencies and build
-            npm install && npm run build
+            # Install dependencies and build the project
+            echo "Running npm install and build..."
+            npm install
+            npm run build
             echo 'Deployment to Digital Ocean finished'
