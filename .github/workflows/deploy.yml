@@ -39,6 +39,7 @@ name: Deploy to DigitalOcean Droplet1
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: DIGITALOCEAN_ACCESS_TOKEN
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -51,6 +52,8 @@ jobs:
         env:
           REPOSITORY: git@github.com:73qau/test-deploy-vuejs.git
           TARGET_FOLDER: /var/www/test-deploy-vuejs/
+          prueba: ${{ vars.DAY_OF_WEEK }}
+          VITE_TEST_VAR: ${{ vars.VITE_TEST_VAR }}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
@@ -63,7 +66,7 @@ jobs:
             if [ ! -d "${{ env.TARGET_FOLDER }}" ]; then
               # Directory does not exist, clone the project
               echo "Directory not found. Cloning repository."
-              git clone $REPOSITORY ${{ env.TARGET_FOLDER }}
+              git clone ${{ env.REPOSITORY }} ${{ env.TARGET_FOLDER }}
             else
               # Directory exists, pull the latest changes
               echo "Directory found. Pulling latest changes."
