@@ -39,52 +39,17 @@ name: Deploy to DigitalOcean Droplet1
     branches: [ main ]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-    environment: DIGITALOCEAN_ACCESS_TOKEN
+  deployment:
+    runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+      - name: Set up node 18
+      - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: Imprimir cosas
-        run: echo "Deployment started!"
-      - name: Deploy to DigitalOcean Droplet
-        uses: appleboy/ssh-action@master
-        env:
-          REPOSITORY: git@github.com:73qau/test-deploy-vuejs.git
-          TARGET_FOLDER: /var/www/test-deploy-vuejs/
-          prueba: ${{ vars.DAY_OF_WEEK }}
-          VITE_TEST_VAR: ${{ vars.VITE_TEST_VAR }}
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          script: |
-            # Use environment variables REPOSITORY and TARGET_FOLDER
-            echo "Deploying to ${{ env.TARGET_FOLDER }} from ${{ env.REPOSITORY }}"
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
 
-            # Check if the project directory exists
-            if [ ! -d "${{ env.TARGET_FOLDER }}" ]; then
-              # Directory does not exist, clone the project
-              echo "Directory not found. Cloning repository."
-              git clone ${{ env.REPOSITORY }} ${{ env.TARGET_FOLDER }}
-            else
-              # Directory exists, pull the latest changes
-              echo "Directory found. Pulling latest changes."
-              cd ${{ env.TARGET_FOLDER }}
-              git pull
-            fi
-
-            # Navigate to the project directory
-            cd ${{ env.TARGET_FOLDER }}
-
-            # Install dependencies and build the project
-            echo "Running npm install and build..."
-            npm install
-            npm run build
-            echo 'Deployment to Digital Ocean finished'
+      - name: Build application
+        run: npm run build
