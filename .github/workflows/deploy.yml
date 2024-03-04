@@ -20,7 +20,5 @@ jobs:
         run: npm ci
       - name: Build application
         run: npm run build
-      - name: Create folder
-        run: mkdir -p /var/www/test-vuejs
       - name: Copy files
         run: rsync -av --exclude='./node_modules' ./ /var/www/test-vuejs
