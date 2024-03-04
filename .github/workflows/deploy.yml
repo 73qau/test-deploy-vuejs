@@ -1,35 +1,3 @@
-# name: Deploy to DigitalOcean Droplet1
-# 'on':
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-#     environment: DIGITALOCEAN_ACCESS_TOKEN
-#     env:
-#       Greeting: algo
-#       prueba: ${{ vars.DAY_OF_WEEK }}
-#       VITE_TEST_VAR: ${{ vars.VITE_TEST_VAR }}
-#     steps:
-#       - uses: actions/checkout@v4
-#       - uses: actions/setup-node@v4
-#         with:
-#           node-version: 18
-#       - name: Imprimir cosas
-#         run: echo "${{ env.Greeting }} ${{ env.prueba }}. Today is ${{ vars.DAY_OF_WEEK }}!"
-#       - name: Deploy to DigitalOcean Droplet
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{secrets.HOST}}
-#           username: ${{secrets.USERNAME}}
-#           key: ${{secrets.KEY}}
-#           script: |
-#             cd /var/www/test-deploy-vuejs/
-#             npm install && npm run build
-#             echo 'Deployment to digital ocean finished'
-
 name: Deploy to DigitalOcean Droplet1
 "on":
   push:
@@ -45,7 +13,7 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v4
       - name: Set up node 18
-      - uses: actions/setup-node@v4
+        uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Install dependencies
