@@ -21,4 +21,4 @@ jobs:
       - name: Build application
         run: npm run build
       - name: Copy files
-        run: rsync -av --exclude='node_modules/' ./ /var/www/test-vuejs
+        run: rsync -av --exclude='node_modules/' --exclude='.git/' --exclude='.github/' ./ /var/www/test-vuejs
